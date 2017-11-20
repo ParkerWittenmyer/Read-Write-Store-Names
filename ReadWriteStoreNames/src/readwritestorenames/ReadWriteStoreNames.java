@@ -6,8 +6,14 @@
 package readwritestorenames;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -29,7 +35,6 @@ public class ReadWriteStoreNames {
         ArrayList<String> array1 = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader("BoyNames.txt")))
         {
-            
             String line = br.readLine();
             
             while(line != null)
@@ -39,12 +44,28 @@ public class ReadWriteStoreNames {
                 }
             Collections.sort(array1);
             System.out.println(array1);
+            
+            WriteFile(array1.toString());
         }
-        
         catch(IOException e)
         {
             System.out.println(e);
         }
         return "Error!";
+    }
+    
+    public static void WriteFile(String content) throws IOException
+    {
+        Path p = Paths.get("NewBoyNames.txt");
+        Files.createFile(p);
+        try (BufferedWriter bw = Files.newBufferedWriter(p)) {
+            bw.write(content);
+        }
+        catch(IOException ioe)
+        {
+            System.out.println("Error!");
+            System.exit(0);
+        }
+        
     }
 }
